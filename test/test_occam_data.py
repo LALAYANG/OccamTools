@@ -99,6 +99,7 @@ def test_occam_data_constructor_files():
 def test_occam_data_attributes():
     occam_data, fort1, fort7, xyz = _create_default_occam_data_object()
     _assert_all_attributes_present_and_equal(occam_data, fort1, fort7, xyz)
+    shutil.rmtree(class_dir)
 
 
 def test_occam_data_wrong_input():
@@ -214,19 +215,6 @@ def test_occam_data_progress_bars():
 
 
 def test_occam_data_not_save_to_npy():
-    (occam_data, fort1, fort7, xyz) = _create_default_occam_data_object()
-    all_attributes = [key for key in occam_data.__dict__]
-    attributes = []
-    for key in all_attributes:
-        assert (key in occam_data.__dict__)
-    occam_data_npy_loaded = OccamData(os.path.join(class_dir, os.pardir), silent=True)
-    try:
-        _ = OccamData('this_is_not_a_file', silent=True)
-    except FileNotFoundError:
-        caught = True
-    assert caught
-    shutil.rmtree(class_dir)
-  
     assert not os.path.exists(class_dir)
     _ = OccamData(file_name_fort_1, save_to_npy=False, silent=True)
     assert not os.path.exists(class_dir)
